@@ -15,6 +15,15 @@ import javafx.scene.text.Text;
 
 public class UIController {
 
+    @FXML
+    public TextField qtyFld;
+    @FXML
+    public TextField itmFld;
+    @FXML
+    public TextField p1Fld;
+    @FXML
+    public TextField p2Fld;
+
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
 
@@ -90,6 +99,10 @@ public class UIController {
         assert p2Col != null : "fx:id=\"p2Col\" was not injected: check your FXML file 'UIView.fxml'.";
         assert chgCol != null : "fx:id=\"chgCol\" was not injected: check your FXML file 'UIView.fxml'.";
         assert pathField != null : "fx:id=\"pathField\" was not injected: check your FXML file 'UIView.fxml'.";
+        assert itmFld != null : "fx:id=\"itmFld\" was not injected: check your FXML file 'UIView.fxml'.";
+        assert qtyFld != null : "fx:id=\"qtyFld\" was not injected: check your FXML file 'UIView.fxml'.";
+        assert p1Fld != null : "fx:id=\"p1Fld\" was not injected: check your FXML file 'UIView.fxml'.";
+        assert p2Fld != null : "fx:id=\"p2Fld\" was not injected: check your FXML file 'UIView.fxml'.";
         assert yearsField != null : "fx:id=\"yearsField\" was not injected: check your FXML file 'UIView.fxml'.";
         assert val1Txt != null : "fx:id=\"val1Txt\" was not injected: check your FXML file 'UIView.fxml'.";
         assert val2Txt != null : "fx:id=\"val2Txt\" was not injected: check your FXML file 'UIView.fxml'.";

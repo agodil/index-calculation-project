@@ -1,4 +1,7 @@
-package sample;
+package application.io;
+
+import application.model.IndexChange;
+import application.model.ValueChange;
 
 import java.io.File;
 import java.io.FileWriter;

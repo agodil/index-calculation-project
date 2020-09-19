@@ -1,1 +1,1 @@
-# index-calculation-project
+# inflation-calculator-project

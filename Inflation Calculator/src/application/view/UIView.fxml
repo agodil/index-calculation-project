@@ -6,7 +6,7 @@
 <?import javafx.scene.text.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0"
             prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
-            fx:controller="sample.UIController">
+            fx:controller="application.controller.UIController">
     <center>
         <TableView fx:id="table" editable="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <columns>

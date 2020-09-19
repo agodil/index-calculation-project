@@ -1,4 +1,4 @@
-package sample;
+package application;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +14,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("UIView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("view/UIView.fxml"));
         primaryStage.setTitle("Index Change Calculator");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();

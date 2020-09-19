@@ -14,22 +14,20 @@ public class IOHelper {
         List<ValueChange> list = new ArrayList<>();
         IndexChange ic;
         Scanner file;
-        double years = 0;
+        double years;
         try {
             file = new Scanner(new File(filePath));
             if (file.hasNextDouble()) {
                 years = file.nextDouble();
+                if (file.hasNextLine()) file.nextLine();
             } else {
                 throw e;
             }
             while (file.hasNextLine()) {
-                try {
-                    String line = file.nextLine();
-                    String[] v = line.split(";");
-                    list.add(new ValueChange(v[0], Double.valueOf(v[1]), Double.valueOf(v[2]), Double.valueOf(v[3])));
-                } catch (Exception i) {
-                    throw e;
-                }
+                String line = file.nextLine();
+                if (!line.matches("^\\S+;\\d+(\\.\\d+)?;\\d+(\\.\\d+)?;\\d+(\\.\\d+)?$")) throw e;
+                String[] v = line.split(";");
+                list.add(new ValueChange(v[0], Double.valueOf(v[1]), Double.valueOf(v[2]), Double.valueOf(v[3])));
             }
             file.close();
         } catch (Exception h) {
@@ -45,7 +43,7 @@ public class IOHelper {
         try {
             PrintWriter w = new PrintWriter(new FileWriter(new File(filePath), false));
             w.println(ic.getYearsBetween());
-            for(ValueChange vc: ic.getValueChanges()) {
+            for (ValueChange vc : ic.getValueChanges()) {
                 w.println(vc.getItemName() + ';' + vc.getQuantity() + ';' + vc.getPrice1() + ';' + vc.getPrice2());
             }
             w.close();

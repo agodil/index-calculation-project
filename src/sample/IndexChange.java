@@ -11,10 +11,6 @@ public class IndexChange {
         this.yearsBetween = yearsBetween;
     }
 
-    public void setYearsBetween(double yearsBetween) {
-        this.yearsBetween = yearsBetween;
-    }
-
     public List<ValueChange> getValueChanges() {
         return valueChanges;
     }
@@ -23,9 +19,13 @@ public class IndexChange {
         return yearsBetween;
     }
 
+    public void setYearsBetween(double yearsBetween) {
+        this.yearsBetween = yearsBetween;
+    }
+
     public double indexValue1() {
         double sum = 0;
-        for (ValueChange vc: valueChanges) {
+        for (ValueChange vc : valueChanges) {
             sum += vc.getPrice1() * vc.getQuantity();
         }
         return sum;
@@ -33,7 +33,7 @@ public class IndexChange {
 
     public double indexValue2() {
         double sum = 0;
-        for (ValueChange vc: valueChanges) {
+        for (ValueChange vc : valueChanges) {
             sum += vc.getPrice2() * vc.getQuantity();
         }
         return sum;
@@ -44,6 +44,6 @@ public class IndexChange {
     }
 
     public double getPercentAverageChange() {
-        return 100 * Math.pow((indexValue2() / indexValue1()), 1.0 / yearsBetween) - 1;
+        return 100 * (Math.pow((indexValue2() / indexValue1()), 1.0 / yearsBetween) - 1);
     }
 }

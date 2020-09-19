@@ -1,17 +1,17 @@
 package sample;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 public class UIController {
 
@@ -46,7 +46,7 @@ public class UIController {
     private TableColumn<ValueChange, Double> p2Col; // Value injected by FXMLLoader
 
     @FXML // fx:id="chgCol"
-    private TableColumn<ValueChange, Double> chgCol; // Value injected by FXMLLoader
+    private TableColumn<ValueChange, String> chgCol; // Value injected by FXMLLoader
 
     @FXML // fx:id="pathField"
     private TextField pathField; // Value injected by FXMLLoader
@@ -70,18 +70,24 @@ public class UIController {
 
     @FXML
     void addRowAction(ActionEvent event) {
-        table.getItems().add(new ValueChange("", 0, 0, 0));
+        ic.getValueChanges().add(new ValueChange(itmFld.getText(), Double.valueOf(qtyFld.getText()), Double.valueOf(p1Fld.getText()), Double.valueOf(p2Fld.getText())));
+        itmFld.clear();
+        qtyFld.clear();
+        p1Fld.clear();
+        p2Fld.clear();
+        updateUI();
     }
 
     @FXML
     void deleteRowsAction(ActionEvent event) {
-        table.getItems().removeAll(table.getSelectionModel().getSelectedItems());
+        ic.getValueChanges().removeAll(table.getSelectionModel().getSelectedItems());
         updateUI();
     }
 
     @FXML
     void readDataAction(ActionEvent event) {
         ic = IOHelper.readData(pathField.getText().trim());
+        yearsField.setText(ic.getYearsBetween() + "");
         updateUI();
     }
 
@@ -90,7 +96,8 @@ public class UIController {
         IOHelper.writeData(ic, pathField.getText().trim());
     }
 
-    @FXML // This method is called by the FXMLLoader when initialization is complete
+    @FXML
+        // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert table != null : "fx:id=\"table\" was not injected: check your FXML file 'UIView.fxml'.";
         assert itmCol != null : "fx:id=\"itmCol\" was not injected: check your FXML file 'UIView.fxml'.";
@@ -109,28 +116,39 @@ public class UIController {
         assert avgChgTxt != null : "fx:id=\"avgChgTxt\" was not injected: check your FXML file 'UIView.fxml'.";
         assert chgTxt != null : "fx:id=\"chgTxt\" was not injected: check your FXML file 'UIView.fxml'.";
 
+        table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
         itmCol.setCellValueFactory(new PropertyValueFactory<>("itemName"));
         qtyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         p1Col.setCellValueFactory(new PropertyValueFactory<>("price1"));
         p2Col.setCellValueFactory(new PropertyValueFactory<>("price2"));
-        chgCol.setCellValueFactory(new PropertyValueFactory<>("percentChange"));
+        chgCol.setCellValueFactory(new PropertyValueFactory<>("formattedPercentChange"));
 
-        ic = new IndexChange(table.getItems(), 0);
+        yearsField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.matches("^\\d+(\\.\\d+)?$")) {
+                ic.setYearsBetween(Double.valueOf(newValue));
+            } else {
+                ic.setYearsBetween(-1);
+            }
+            updateUI();
+        });
+
+        ic = new IndexChange(new ArrayList<>(), 0);
 
         updateUI();
     }
 
     private void updateUI() {
-        ObservableList list = FXCollections.observableArrayList();
-        list.addAll(ic.getValueChanges());
-        table.setItems(list);
-        yearsField.setText(ic.getYearsBetween() + "");
-        val1Txt.setText(ic.indexValue1() + "");
-        val2Txt.setText(ic.indexValue2() + "");
-        if(ic.indexValue1() != 0) {
-            chgTxt.setText(ic.getPercentChange() + "");
-            if(ic.getYearsBetween() > 0) {
-                avgChgTxt.setText(ic.getPercentAverageChange() + "");
+        table.getItems().setAll(ic.getValueChanges());
+        //yearsField.setText(ic.getYearsBetween() + "");
+        val1Txt.setText("Value 1: " + ic.indexValue1());
+        val2Txt.setText("Value 2: " + ic.indexValue2());
+        if (ic.indexValue1() != 0) {
+            chgTxt.setText("Change: " + String.format("%.5f", ic.getPercentChange()) + "%");
+            if (ic.getYearsBetween() > 0) {
+                avgChgTxt.setText("Compound Annual Change: " + String.format("%.5f", ic.getPercentAverageChange()) + "%");
+            } else {
+                avgChgTxt.setText("");
             }
         }
     }

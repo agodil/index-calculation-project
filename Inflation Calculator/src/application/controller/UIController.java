@@ -71,6 +71,10 @@ public class UIController {
 
     private IndexChange ic;
 
+    /**
+     * event handler
+     * @param event
+     */
     @FXML
     void addRowAction(ActionEvent event) {
         ic.getValueChanges().add(new ValueChange(itmFld.getText(), Double.valueOf(qtyFld.getText()), Double.valueOf(p1Fld.getText()), Double.valueOf(p2Fld.getText())));
@@ -81,12 +85,20 @@ public class UIController {
         updateUI();
     }
 
+    /**
+     * event handler
+     * @param event
+     */
     @FXML
     void deleteRowsAction(ActionEvent event) {
         ic.getValueChanges().removeAll(table.getSelectionModel().getSelectedItems());
         updateUI();
     }
 
+    /**
+     * event handler
+     * @param event
+     */
     @FXML
     void readDataAction(ActionEvent event) {
         ic = IOHelper.readData(pathField.getText().trim());
@@ -94,13 +106,19 @@ public class UIController {
         updateUI();
     }
 
+    /**
+     * event handler
+     * @param event
+     */
     @FXML
     void writeDataAction(ActionEvent event) {
         IOHelper.writeData(ic, pathField.getText().trim());
     }
 
+    /**
+     *
+     */
     @FXML
-        // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert table != null : "fx:id=\"table\" was not injected: check your FXML file 'UIView.fxml'.";
         assert itmCol != null : "fx:id=\"itmCol\" was not injected: check your FXML file 'UIView.fxml'.";
@@ -127,6 +145,7 @@ public class UIController {
         p2Col.setCellValueFactory(new PropertyValueFactory<>("price2"));
         chgCol.setCellValueFactory(new PropertyValueFactory<>("formattedPercentChange"));
 
+        //add listener to field
         yearsField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.matches("^\\d+(\\.\\d+)?$")) {
                 ic.setYearsBetween(Double.valueOf(newValue));
@@ -141,6 +160,9 @@ public class UIController {
         updateUI();
     }
 
+    /**
+     * update ui content
+     */
     private void updateUI() {
         table.getItems().setAll(ic.getValueChanges());
         //yearsField.setText(ic.getYearsBetween() + "");

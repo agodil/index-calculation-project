@@ -1,5 +1,8 @@
 package application.model;
 
+/**
+ * class representing an item
+ */
 public class ValueChange {
     private String itemName;
     private double quantity;

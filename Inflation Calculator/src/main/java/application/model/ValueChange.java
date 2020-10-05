@@ -4,12 +4,18 @@ package application.model;
  * class representing an item
  */
 public class ValueChange {
+    private int id;
     private String itemName;
     private double quantity;
     private double price1;
     private double price2;
 
     public ValueChange(String itemName, double quantity, double price1, double price2) {
+        this(-1, itemName, quantity, price1, price2);
+    }
+
+    public ValueChange(int id, String itemName, double quantity, double price1, double price2) {
+        this.id = id;
         this.itemName = itemName;
         this.quantity = quantity;
         this.price1 = price1;

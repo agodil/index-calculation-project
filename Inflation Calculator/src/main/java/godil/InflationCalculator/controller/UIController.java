@@ -1,8 +1,8 @@
-package application.controller;
+package godil.InflationCalculator.controller;
 
-import application.io.IOHelper;
-import application.model.IndexChange;
-import application.model.ValueChange;
+import godil.InflationCalculator.io.IOHelper;
+import godil.InflationCalculator.model.IndexChange;
+import godil.InflationCalculator.model.ItemValueChange;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.SelectionMode;
@@ -34,22 +34,22 @@ public class UIController {
     private URL location;
 
     @FXML // fx:id="table"
-    private TableView<ValueChange> table; // Value injected by FXMLLoader
+    private TableView<ItemValueChange> table; // Value injected by FXMLLoader
 
     @FXML // fx:id="itmCol"
-    private TableColumn<ValueChange, String> itmCol; // Value injected by FXMLLoader
+    private TableColumn<ItemValueChange, String> itmCol; // Value injected by FXMLLoader
 
     @FXML // fx:id="qtyCol"
-    private TableColumn<ValueChange, Double> qtyCol; // Value injected by FXMLLoader
+    private TableColumn<ItemValueChange, Double> qtyCol; // Value injected by FXMLLoader
 
     @FXML // fx:id="p1Col"
-    private TableColumn<ValueChange, Double> p1Col; // Value injected by FXMLLoader
+    private TableColumn<ItemValueChange, Double> p1Col; // Value injected by FXMLLoader
 
     @FXML // fx:id="p2Col"
-    private TableColumn<ValueChange, Double> p2Col; // Value injected by FXMLLoader
+    private TableColumn<ItemValueChange, Double> p2Col; // Value injected by FXMLLoader
 
     @FXML // fx:id="chgCol"
-    private TableColumn<ValueChange, String> chgCol; // Value injected by FXMLLoader
+    private TableColumn<ItemValueChange, String> chgCol; // Value injected by FXMLLoader
 
     @FXML // fx:id="pathField"
     private TextField pathField; // Value injected by FXMLLoader
@@ -73,11 +73,12 @@ public class UIController {
 
     /**
      * event handler
+     *
      * @param event
      */
     @FXML
     void addRowAction(ActionEvent event) {
-        ic.getValueChanges().add(new ValueChange(itmFld.getText(), Double.valueOf(qtyFld.getText()), Double.valueOf(p1Fld.getText()), Double.valueOf(p2Fld.getText())));
+        ic.getValueChanges().add(new ItemValueChange(itmFld.getText(), Double.valueOf(qtyFld.getText()), Double.valueOf(p1Fld.getText()), Double.valueOf(p2Fld.getText())));
         itmFld.clear();
         qtyFld.clear();
         p1Fld.clear();
@@ -87,6 +88,7 @@ public class UIController {
 
     /**
      * event handler
+     *
      * @param event
      */
     @FXML
@@ -97,6 +99,7 @@ public class UIController {
 
     /**
      * event handler
+     *
      * @param event
      */
     @FXML
@@ -108,6 +111,7 @@ public class UIController {
 
     /**
      * event handler
+     *
      * @param event
      */
     @FXML
@@ -143,7 +147,7 @@ public class UIController {
         qtyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         p1Col.setCellValueFactory(new PropertyValueFactory<>("price1"));
         p2Col.setCellValueFactory(new PropertyValueFactory<>("price2"));
-        chgCol.setCellValueFactory(new PropertyValueFactory<>("formattedPercentChange"));
+        chgCol.setCellValueFactory(new PropertyValueFactory<>("formatPercentChange"));
 
         //add listener to field
         yearsField.textProperty().addListener((observable, oldValue, newValue) -> {

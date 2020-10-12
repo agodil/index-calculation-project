@@ -1,23 +1,22 @@
-package application.model;
+package godil.InflationCalculator.model;
 
 import java.util.List;
 
 public class IndexChange {
-    private List<ValueChange> valueChanges;
+    private List<ItemValueChange> itemValueChanges;
     private double yearsBetween;
 
     /**
-     *
-     * @param valueChanges
+     * @param itemValueChanges
      * @param yearsBetween
      */
-    public IndexChange(List<ValueChange> valueChanges, double yearsBetween) {
-        this.valueChanges = valueChanges;
+    public IndexChange(List<ItemValueChange> itemValueChanges, double yearsBetween) {
+        this.itemValueChanges = itemValueChanges;
         this.yearsBetween = yearsBetween;
     }
 
-    public List<ValueChange> getValueChanges() {
-        return valueChanges;
+    public List<ItemValueChange> getValueChanges() {
+        return itemValueChanges;
     }
 
     public double getYearsBetween() {
@@ -30,11 +29,12 @@ public class IndexChange {
 
     /**
      * sums first values
+     *
      * @return
      */
     public double indexValue1() {
         double sum = 0;
-        for (ValueChange vc : valueChanges) {
+        for (ItemValueChange vc : itemValueChanges) {
             sum += vc.getPrice1() * vc.getQuantity();
         }
         return sum;
@@ -42,11 +42,12 @@ public class IndexChange {
 
     /**
      * sums second values
+     *
      * @return
      */
     public double indexValue2() {
         double sum = 0;
-        for (ValueChange vc : valueChanges) {
+        for (ItemValueChange vc : itemValueChanges) {
             sum += vc.getPrice2() * vc.getQuantity();
         }
         return sum;
@@ -54,6 +55,7 @@ public class IndexChange {
 
     /**
      * calculate change in index
+     *
      * @return
      */
     public double getPercentChange() {
@@ -62,6 +64,7 @@ public class IndexChange {
 
     /**
      * calculate annual change in index
+     *
      * @return
      */
     public double getPercentAverageChange() {

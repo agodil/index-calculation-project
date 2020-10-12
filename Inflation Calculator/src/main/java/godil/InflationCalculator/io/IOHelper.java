@@ -1,7 +1,7 @@
-package application.io;
+package godil.InflationCalculator.io;
 
-import application.model.IndexChange;
-import application.model.ValueChange;
+import godil.InflationCalculator.model.IndexChange;
+import godil.InflationCalculator.model.ItemValueChange;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -13,13 +13,12 @@ import java.util.Scanner;
 
 public class IOHelper {
     /**
-     *
      * @param filePath
      * @return object
      */
     public static IndexChange readData(String filePath) {
         Exception e = new Exception("bad format");
-        List<ValueChange> list = new ArrayList<>();
+        List<ItemValueChange> list = new ArrayList<>();
         IndexChange ic;
         Scanner file;
         double years;
@@ -38,7 +37,7 @@ public class IOHelper {
                 // check format
                 if (!line.matches("^\\S+;\\d+(\\.\\d+)?;\\d+(\\.\\d+)?;\\d+(\\.\\d+)?$")) throw e;
                 String[] v = line.split(";");
-                list.add(new ValueChange(v[0], Double.valueOf(v[1]), Double.valueOf(v[2]), Double.valueOf(v[3])));
+                list.add(new ItemValueChange(v[0], Double.valueOf(v[1]), Double.valueOf(v[2]), Double.valueOf(v[3])));
             }
             file.close();
         } catch (Exception h) {
@@ -51,7 +50,6 @@ public class IOHelper {
     }
 
     /**
-     *
      * @param ic
      * @param filePath
      */
@@ -62,7 +60,7 @@ public class IOHelper {
             //write number
             w.println(ic.getYearsBetween());
             //write lines
-            for (ValueChange vc : ic.getValueChanges()) {
+            for (ItemValueChange vc : ic.getValueChanges()) {
                 w.println(vc.getItemName() + ';' + vc.getQuantity() + ';' + vc.getPrice1() + ';' + vc.getPrice2());
             }
             w.close();
